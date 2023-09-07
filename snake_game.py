@@ -2,10 +2,10 @@ import pygame  # library for game
 # import time # libraray for time
 from pygame.locals import *
 
-
-def draw_block():  # preparing Block as a apple
-    block_x, block_y = 100, 100
-    block = pygame.image.load('Resources/apple.jpg')
+block_x, block_y = 100, 100
+def draw_block():  # preparing Block as a snake body
+    Screen.fill((102, 69, 8))  # rgb colour picker
+    block = pygame.image.load('Resources/block.jpg')
     Screen.blit(block, (block_x, block_y))
     pygame.display.flip()  # display your screen
 
@@ -27,13 +27,17 @@ if __name__ == '__main__':
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     running = False
-                elif event.key == K_UP:
-                    pass
-                elif event.key == K_DOWN:
-                    pass
-                elif event.key == K_RIGHT:
-                    pass
-                # else event.key == K_LEFT:
-                # pass
+                if event.key == K_UP:
+                    block_y -= 10
+                    draw_block()
+                if event.key == K_DOWN:
+                    block_y += 10
+                    draw_block()
+                if event.key == K_RIGHT:
+                    block_x += 10
+                    draw_block()
+                if event.key == K_LEFT:
+                    block_x -= 10
+                    draw_block()
             elif event.type == QUIT:
                 running = False
