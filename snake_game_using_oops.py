@@ -175,7 +175,7 @@ class Game:
                 game_pause = True
                 self.game_reset()
 
-            time.sleep(.0001)
+            time.sleep(38)
 
 
 if __name__ == '__main__':
