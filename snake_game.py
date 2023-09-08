@@ -1,13 +1,57 @@
 import pygame  # library for game
 import time # library for time
 from pygame.locals import *
+import random
+
+SIZE = 40
+
+class Apple:
+    def __init__(self,parent_screen):
+        self.parent_screen = parent_screen
+        self.image = pygame.image.load("Resources/apple.jpg")
+        self.x = SIZE*3
+        self.y = SIZE*3
+
+    def draw(self):
+        self.parent_screen.blit(self.image, (self.x, self.y))
+        pygame.display.flip()  # display your screen
+
+    def move(self):
+        self.x = random.randint(1,12)*SIZE
+        self.y = random.randint(1,12)*SIZE
+
+
 
 class Game: # class
     def __init__(self): # Constructor
         pygame.init()  # To initialize the pygame library
         self.parent_screen = pygame.display.set_mode((500, 500))  # create a main window for a game
-        self.snake = snake(self.parent_screen,7)
+        self.snake = snake(self.parent_screen,2)
         self.snake.draw()
+        self.apple = Apple(self.parent_screen)
+        self.apple.draw()
+
+    def display_score(self):
+        font = pygame.font.SysFont('arial',30)
+        score = font.render(f"score:{self.snake.length}",True,(200, 200, 200))
+        self.parent_screen.blit(score,(350,10))
+
+    def is_collision(self, x1, y1, x2, y2):
+        if x1 >= x2  and x1 <= x2 + SIZE:
+            if y1 >= y2 and y1 <= y2 + SIZE:
+                return True
+        return False
+
+    def play(self):
+        self.snake.walk()
+        self.apple.draw()
+        self.display_score()
+        pygame.display.flip()
+
+        if(self.is_collision(self.snake.block_x[0],self.snake.block_y[0],self.apple.x,self.apple.y)):
+            self.snake.increase_length()
+            self.apple.move()
+
 
     def run(self):
 
@@ -28,7 +72,7 @@ class Game: # class
                 elif event.type == QUIT:
                     running = False
 
-            self.snake.walk()
+            self.play()
             time.sleep(.2)
 
 class snake():
@@ -36,8 +80,13 @@ class snake():
         self.parent_screen= parent_screen
         self.block = pygame.image.load('Resources/block.jpg')
         self.length = length
-        self.block_x, self.block_y = [40]*length, [40]*length
-        self.direction = 'up'
+        self.block_x, self.block_y = [SIZE]*length, [SIZE]*length
+        self.direction = 'down'
+
+    def increase_length(self):
+        self.length += 1
+        self.block_x.append(-1)
+        self.block_y.append(-1)
 
     def draw(self):  # Preparing Block as a snake body
 
@@ -52,13 +101,13 @@ class snake():
             self.block_y[i] = self.block_y[i-1]
 
         if self.direction == 'left':
-            self.block_x[0] -= 40
+            self.block_x[0] -= SIZE
         elif self.direction == 'right':
-            self.block_x[0] += 40
+            self.block_x[0] += SIZE
         elif self.direction == 'up':
-            self.block_y[0] -= 40
+            self.block_y[0] -= SIZE
         elif self.direction == 'down':
-            self.block_y[0] += 40
+            self.block_y[0] += SIZE
 
         self.draw()
 
