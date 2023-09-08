@@ -6,7 +6,7 @@ class Game: # class
     def __init__(self): # Constructor
         pygame.init()  # To initialize the pygame library
         self.parent_screen = pygame.display.set_mode((500, 500))  # create a main window for a game
-        self.snake = snake(self.parent_screen)
+        self.snake = snake(self.parent_screen,7)
         self.snake.draw()
 
     def run(self):
@@ -32,27 +32,33 @@ class Game: # class
             time.sleep(.2)
 
 class snake():
-    def __init__(self,parent_screen):
+    def __init__(self,parent_screen,length):
         self.parent_screen= parent_screen
         self.block = pygame.image.load('Resources/block.jpg')
-        self.block_x, self.block_y = 100, 100
+        self.length = length
+        self.block_x, self.block_y = [40]*length, [40]*length
         self.direction = 'up'
 
     def draw(self):  # Preparing Block as a snake body
 
         self.parent_screen.fill((102, 69, 8))  # rgb colour picker
-        self.parent_screen.blit(self.block, (self.block_x, self.block_y))
-        pygame.display.flip()  # display your screen
+        for i in range(self.length):
+            self.parent_screen.blit(self.block, (self.block_x[i], self.block_y[i]))
+            pygame.display.flip()  # display your screen
 
     def walk(self):
+        for i in range(self.length-1,0,-1):
+            self.block_x[i] = self.block_x[i-1]
+            self.block_y[i] = self.block_y[i-1]
+
         if self.direction == 'left':
-            self.block_x -= 10
+            self.block_x[0] -= 40
         elif self.direction == 'right':
-            self.block_x += 10
+            self.block_x[0] += 40
         elif self.direction == 'up':
-            self.block_y -= 10
+            self.block_y[0] -= 40
         elif self.direction == 'down':
-            self.block_y += 10
+            self.block_y[0] += 40
 
         self.draw()
 
