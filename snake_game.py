@@ -1,5 +1,5 @@
 import pygame  # library for game
-# import time # library for time
+import time # library for time
 from pygame.locals import *
 
 class Game: # class
@@ -28,11 +28,15 @@ class Game: # class
                 elif event.type == QUIT:
                     running = False
 
+            self.snake.walk()
+            time.sleep(.2)
+
 class snake():
     def __init__(self,parent_screen):
         self.parent_screen= parent_screen
         self.block = pygame.image.load('Resources/block.jpg')
         self.block_x, self.block_y = 100, 100
+        self.direction = 'up'
 
     def draw(self):  # Preparing Block as a snake body
 
@@ -40,24 +44,32 @@ class snake():
         self.parent_screen.blit(self.block, (self.block_x, self.block_y))
         pygame.display.flip()  # display your screen
 
+    def walk(self):
+        if self.direction == 'left':
+            self.block_x -= 10
+        elif self.direction == 'right':
+            self.block_x += 10
+        elif self.direction == 'up':
+            self.block_y -= 10
+        elif self.direction == 'down':
+            self.block_y += 10
+
+        self.draw()
+
     def move_up(self):
 
-        self.block_y -= 10
-        self.draw()
+        self.direction = 'up'
 
     def move_down(self):
 
-        self.block_y += 10
-        self.draw()
+        self.direction = 'down'
 
     def move_right(self):
-        self.block_x +=10
-        self.draw()
+        self.direction = 'right'
 
 
     def move_left(self):
-        self.block_x -= 10
-        self.draw()
+        self.direction = 'left'
 
 if __name__ == '__main__':
     game = Game() # object of a game class
