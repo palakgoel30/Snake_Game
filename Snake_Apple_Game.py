@@ -77,7 +77,7 @@ class Game:
         pygame.mixer.init()
         self.play_background_music()
         self.screen = pygame.display.set_mode((1000, 600), pygame.RESIZABLE)
-        pygame.display.set_caption("Snake Apple Game")
+        pygame.display.set_caption("Snake Apple Game 2")
         self.snake = snake(self.screen, 1)
         self.snake.draw_snake()
         self.apple = Apple(self.screen)
