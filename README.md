@@ -22,10 +22,12 @@ Step4 :- build folder and spec file both have no use, you can delete them.
 Step 5 :- open the dist folder, this folder will contain an exe file.
 if exe file shows that's your resource files are not present, then add all your resource files to dist folder.
 
-Step6 :- pip to start your exe file, to show in the menu with all your application.
+Step6 :- zip the dist folder.
 
+Step7:- using NSIS application,make exe file.
+That's your final game application.
 
-          ***********************************************************************
+    ***********************************************************************
 For colour Reference:-
 
 RGB(256,256,256) : White
